@@ -24,10 +24,10 @@ jobs:
       - name: Run automate preprocessing
         run: |
           cd preprocessing
-          python automate_deynabs.py iris_dataset.csv
+          python automate_deynabs.py
 
       - name: Upload preprocessed dataset
         uses: actions/upload-artifact@v4
         with:
-          name: wine-preprocessed
-          path: preprocessing/wine_preprocessing/
+          name: breast-cancer-preprocessed
+          path: preprocessing/breast_cancer_preprocessing/

@@ -14,6 +14,18 @@ def load_data():
     return df
 
 def preprocess(df):
+    # Missing values
+    df = df.fillna(df.median(numeric_only=True))
+    print('[PREP] Missing values ditangani.')
+
+    # Outlier IQR Clipping
+    num_features = [c for c in df.columns if c != 'target']
+    for col in num_features:
+        Q1, Q3 = df[col].quantile(0.25), df[col].quantile(0.75)
+        IQR = Q3 - Q1
+        df[col] = df[col].clip(Q1 - 1.5*IQR, Q3 + 1.5*IQR)
+    print('[PREP] Outlier di-clip dengan metode IQR.')
+
     X = df.drop('target', axis=1)
     y = df['target']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
